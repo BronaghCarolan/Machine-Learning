@@ -66,11 +66,10 @@ def train_model(max_depth,
     model.fit(X_train, y_train)
     #Predict y_train and return -rmse to maximise
     pred = model.predict(X_train)
-    print(-np.sqrt(mean_squared_error(y_train, pred)))
     return -np.sqrt(mean_squared_error(y_train, pred))
 
 
-#Set params for regressot
+#Set params for regressor
 bounds = {
     'max_depth':(5,10),
     'learning_rate': (0.01, 0.02),
@@ -116,7 +115,6 @@ predict_X[['Year of Record', 'Age', 'Body Height']] = ss.transform(predict_X[['Y
 
 #Predict and store in csv file
 pred2 = model.predict(predict_X)
-print(pred2)
 test = {'Income': pred2}
 df_out = pd.DataFrame(test, columns=['Income'])
 df_out.to_csv("tcd ml 2019-20 income prediction submission file.csv")
