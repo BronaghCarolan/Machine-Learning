@@ -65,8 +65,8 @@ ct = ColumnTransformer(transformers=transformers)
 #Setting regressor - XGBoost, CatBoost and LightGBM give me similar outputs
 
 #regressor = xgb.XGBRegressor()
-#regressor= CatBoostRegressor(od_type = 'Iter', od_wait = 100, verbose =0, cat_features = [2,4])
-regressor = LGBMRegressor()
+regressor= CatBoostRegressor(od_type = 'Iter', od_wait = 100, verbose =0)
+#regressor = LGBMRegressor()
 
 
 #Splitting data into training and testing data
@@ -98,27 +98,27 @@ parameters_XGB = {
 }
 '''
 parameters_CAT = {
-        #'regressor__depth':[ 4, 6,7, 8],
-        #'regressor__iterations':[500, 1000],
-        #'regressor__learning_rate':[0.01,0.1,0.2,0.3], 
-        #'regressor__l2_leaf_reg':[3, 1, 2],
-        #'regressor__border_count':[100,200],
-        #'regressor__ctr_border_count':[50,5,10,20,100,200],
-        #'regressor__thread_count':[4]
+        'regressor__depth':[ 4, 6,7, 8],
+        'regressor__iterations':[500, 1000],
+        'regressor__learning_rate':[0.01,0.1,0.2,0.3], 
+        'regressor__l2_leaf_reg':[3, 1, 2],
+        'regressor__border_count':[100,200],
+        'regressor__ctr_border_count':[50,5,10,20,100,200],
+        'regressor__thread_count':[4]
 }
 parameters_LGB = {
     'regressor__boosting_type': ['gbdt'],
     'regressor__max_bin':[50,60,70,80],
     'regressor__objective': ['regression'],
-    #'regressor__metric' : {'l2','auc'},
+    'regressor__metric' : {'l2','auc'},
     'regressor__num_leaves': [30],
-    #'regressor__min_data' : 50,
+    'regressor__min_data' : 50,
     'regressor__max_depth' : [6],
-    #'regressor__learning_rate': 0.01,
+    'regressor__learning_rate': 0.01,
     'regressor__feature_fraction': [0.7],
-   'regressor__bagging_fraction': [0.7],
-    #'regressor__subsample':range(0.4, 1),
-    #'regressor__bagging_freq': 80,
+    'regressor__bagging_fraction': [0.7],
+    'regressor__subsample':range(0.4, 1),
+    'regressor__bagging_freq': 80,
     'regressor__verbose': [100]
 }
         
@@ -126,7 +126,7 @@ parameters_LGB = {
 
 #GridSearchCV is given the pipeline, the parameters for the regressor
 print('Starting grid search')
-gridsearch = GridSearchCV(ml_pipe, parameters_LGB,verbose=1, cv=5).fit(X_train, y_train)
+gridsearch = GridSearchCV(ml_pipe, parameters_CAT,verbose=1, cv=5).fit(X_train, y_train)
 #Predict using test data
 pred = gridsearch.predict(X_test)
 print(np.sqrt(mean_squared_error(y_test, pred)))
@@ -153,7 +153,7 @@ print(pred2)
 #Write to file
 test = {'Income': pred2}
 df_out = pd.DataFrame(test, columns=['Income'])
-df_out.to_csv("TestInc.csv")
+df_out.to_csv("tcd ml 2019-20 prediction submission.csv")
 
 
 
