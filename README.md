@@ -8,6 +8,8 @@ Pipeline.py gave me similar results and uses a pipeline. CatBoost gave the best 
 
 Information given in Excel Spreadsheet:
 
+Course: CS and Language
+
 Local RMSE : 55,183
 
 ML Libraries: scikit-learn, CatBoost
